@@ -22,12 +22,18 @@ public class StreamMap {
         return Arrays.stream(split);
     }
 
+    public static void main(String[] args) {
+        System.out.println(Arrays.toString(letters("tom").toArray()));
+    }
+
     /**
      * @param someWords - variable amount of String arguments
      * @return - a Stream of several Streams of single characters
      */ //TODO
     public static Stream<Stream<String>> wordsMap(String... someWords) {
-        return null;
+        List<String> listOfStrings = Arrays.asList(someWords);
+        return listOfStrings.stream()
+                .map(StreamMap::letters);
     }
 
     /**
