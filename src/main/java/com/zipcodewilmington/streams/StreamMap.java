@@ -18,7 +18,8 @@ public class StreamMap {
      * @return - a Stream of single characters
      */ //TODO
     public static Stream<String> letters(String someWord) {
-        return null;
+        String[] split = someWord.split("");
+        return Arrays.stream(split);
     }
 
     /**
