@@ -2,6 +2,7 @@ package com.zipcodewilmington.streams;
 
 import com.zipcodewilmington.streams.anthropoid.Person;
 import com.zipcodewilmington.streams.anthropoid.PersonFactory;
+import com.zipcodewilmington.streams.conversions.ArrayConverter;
 import com.zipcodewilmington.streams.tools.RandomUtils;
 import com.zipcodewilmington.streams.tools.StringUtils;
 
@@ -51,28 +52,31 @@ public class StreamFilter {
         this.startingCharacter = startingCharacter.toString();
     }
 
-
+    //
     /**
      * Using multi-line lambda syntax
      * @return a list of person object whose name starts with `this.startingCharacter`
      */ //TODO
     public List<Person> toListMultiLine() {
         return personStream.filter(
-                p ->{
-                    String firstLet = String.valueOf(p.getName().charAt(0));
+                p -> {
+                    String firstLetter = String.valueOf(p.getName().startsWith(startingCharacter));
                     System.out.println(p.getName());
-                    return firstLet.equals(this.startingCharacter);
+                    return firstLetter.equals(this.startingCharacter);
                 }
         ).collect(Collectors.toList());
     }
 
+    public static void main(String[] args) {
+        System.out.println(("hi".startsWith("h")));
+    }
 
     /**
      * Using one-line lambda syntax
      * @return a list of person objects whose name starts with `this.startingCharacter`
      */ //TODO
     public List<Person> toListOneLine() {
-        return personStream.filter(p ->String.valueOf(p.getName().charAt(0)).equals(this.startingCharacter)).collect(Collectors.toList());
+        return personStream.filter(p -> String.valueOf(p.getName().startsWith(startingCharacter)).equals(this.startingCharacter)).collect(Collectors.toList());
     }
 
 
@@ -81,7 +85,8 @@ public class StreamFilter {
      * @return an array of person object whose name starts with `this.startingCharacter`
      */ //TODO
     public Person[] toArrayOneLine() {
-        return personStream.filter(p ->String.valueOf(p.getName().charAt(0)).equals(this.startingCharacter)).collect(Collectors.toList()).toArray(new Person[0]);
+        return toListOneLine().toArray(new Person[0]);
+        //return personStream.filter(p ->String.valueOf(p.getName().charAt(0)).equals(this.startingCharacter)).collect(Collectors.toList()).toArray(new Person[0]);
     }
 
 
@@ -91,8 +96,9 @@ public class StreamFilter {
      */ //TODO
     public Person[] toArrayMultiLine() {
         return personStream.filter(p -> {
-                    String firstLet = String.valueOf(p.getName().charAt(0));
-                    return firstLet.equals(this.startingCharacter);
+            return p.getName().startsWith(startingCharacter);
+//                    String firstLet = String.valueOf(p.getName().startsWith(startingCharacter));
+//                    return firstLet.equals(this.startingCharacter);
                 }
         ).collect(Collectors.toList()).toArray(new Person[0]);
     }

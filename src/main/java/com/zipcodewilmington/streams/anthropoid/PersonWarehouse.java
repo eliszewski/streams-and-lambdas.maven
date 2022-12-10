@@ -53,7 +53,8 @@ public final class PersonWarehouse implements Iterable<Person> {
      * @return a Stream of respective
      */ //TODO
     public Stream<Person> getUniquelyNamedPeopleStartingWith(Character character) {
-        return Arrays.stream(new StreamFilter(people,character).toArrayMultiLine());
+        return people.stream().filter(p -> p.getName().charAt(0) == character);
+        //return Arrays.stream(new StreamFilter(people,character).toArrayMultiLine());
     }
 
     /**
@@ -68,7 +69,7 @@ public final class PersonWarehouse implements Iterable<Person> {
      * @return a mapping of Person Id to the respective Person name
      */ // TODO
     public Map<Long, String> getIdToNameMap() {
-        return people.stream().collect(Collectors.toMap(person -> person.getPersonalId(), person -> person.getName()));
+        return people.stream().collect(Collectors.toMap(Person::getPersonalId, Person::getName));
     }
 
 
@@ -76,9 +77,20 @@ public final class PersonWarehouse implements Iterable<Person> {
      * @return Stream of Stream of Aliases
      */ // TODO
     public Stream<Stream<String>> getNestedAliases() {
-        return null;
+        return people.stream()
+                .map(person -> Stream.of(person.getAliases()));
     }
 
+    public static void main(String[] args) {
+        PersonFactory factory = new PersonFactory();
+        PersonWarehouse warehouse = new PersonWarehouse();
+
+        Stream
+                .generate(factory::createRandomPerson)
+                .limit(100)
+                .forEach(warehouse::addPerson);
+        System.out.println(warehouse.getNestedAliases());
+    }
 
     /**
      * @return Stream of all Aliases
