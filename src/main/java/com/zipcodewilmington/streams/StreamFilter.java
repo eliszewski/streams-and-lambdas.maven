@@ -96,9 +96,8 @@ public class StreamFilter {
      */ //TODO
     public Person[] toArrayMultiLine() {
         return personStream.filter(p -> {
-            return p.getName().startsWith(startingCharacter);
-//                    String firstLet = String.valueOf(p.getName().startsWith(startingCharacter));
-//                    return firstLet.equals(this.startingCharacter);
+                    String firstLet = String.valueOf(p.getName().startsWith(startingCharacter));
+                    return firstLet.equals(this.startingCharacter);
                 }
         ).collect(Collectors.toList()).toArray(new Person[0]);
     }
